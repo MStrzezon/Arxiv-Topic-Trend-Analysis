@@ -13,6 +13,7 @@ def get_topvec_model_output(data, doc_top, topics, topic_vectors, document_vecto
     topic_document_matrix = get_topic_document_matrix(topic_vectors, document_vectors)
 
     model_output = dict()
+
     model_output['topics'] = topics
     model_output['topic-word-matrix'] = topic_word_matrix
     model_output['topic-document-matrix'] = topic_document_matrix

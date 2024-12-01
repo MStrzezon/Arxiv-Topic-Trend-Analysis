@@ -8,12 +8,11 @@ from sklearn.feature_extraction.text import CountVectorizer
 import pandas as pd
 
 
-def get_topvec_model_output(data, doc_top, topics, topic_vectors, document_vectors):
-    topic_word_matrix = get_topic_word_matrix(data, doc_top)
+def get_topvec_model_output(documents, doc_top, topics, topic_vectors, document_vectors):
+    topic_word_matrix = get_topic_word_matrix(documents, doc_top)
     topic_document_matrix = get_topic_document_matrix(topic_vectors, document_vectors)
 
     model_output = dict()
-
     model_output['topics'] = topics
     model_output['topic-word-matrix'] = topic_word_matrix
     model_output['topic-document-matrix'] = topic_document_matrix
@@ -21,12 +20,8 @@ def get_topvec_model_output(data, doc_top, topics, topic_vectors, document_vecto
     return model_output
 
 
-def get_topic_word_matrix(data, doc_top):
-    processed_summaries = []
-    for summary in data['Processed Summary']:
-        processed_summaries.append(' '.join(summary))
-
-    docs_df = pd.DataFrame(processed_summaries, columns=["Doc"])
+def get_topic_word_matrix(documents, doc_top):
+    docs_df = pd.DataFrame(documents, columns=["Doc"])
     docs_df['Topic'] = doc_top
     docs_df['Doc_ID'] = range(len(docs_df))
     docs_per_topic = docs_df.groupby(['Topic'], as_index=False).agg({'Doc': ' '.join})

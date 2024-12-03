@@ -1,3 +1,4 @@
+from matplotlib import pyplot as plt
 from octis.evaluation_metrics.coherence_metrics import Coherence
 from octis.evaluation_metrics.diversity_metrics import TopicDiversity, InvertedRBO
 from octis.evaluation_metrics.similarity_metrics import PairwiseJaccardSimilarity
@@ -75,3 +76,5 @@ def calculate_metrics(model_output, dataset, topk=10, verbose=False):
                 print(f"{name}: {metric_score}")
             results[name] = metric_score
     return results
+
+

@@ -24,7 +24,7 @@ def get_processed_data_bertopic(csv_file="../../data/arxiv_processed.csv"):
 def get_bertopic_model_output(topic_model: bertopic.BERTopic) -> typing.Dict:
     model_output = dict()
     model_output['topics'] = topic_model.get_topic_info()['Representation'].tolist()
-    model_output['topic-word-matrix'] = topic_model.c_tf_idf_
+    model_output['topic-word-matrix'] = topic_model.c_tf_idf_.toarray()
     model_output['topic-document-matrix'] = topic_model.probabilities_
 
     return model_output
@@ -45,10 +45,11 @@ def calculate_metrics(model_output, dataset, topk=10, verbose=False):
     for metric, name in metrics:
         try:
             metric_score = metric.score(model_output)
-        except:
+        except Exception as e:
             metric_score = None
+            print(f"Error calculating {name}: {e}")
         finally:
             if verbose:
                 print(f"{name}: {metric_score}")
             results[name] = metric_score
-    return results
+    return pd.DataFrame(results.values(), index=results.keys()).T

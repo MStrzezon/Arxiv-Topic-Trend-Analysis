@@ -1,4 +1,5 @@
 from models.CustomLDA import CustomLDA
+from models.BERTopic import CustomBERTopic
 import pandas as pd
 import time
 
@@ -6,6 +7,8 @@ import time
 class Scheduler:
     def __init__(self):
         self.models = [
+            CustomBERTopic(),
+            CustomBERTopic(reduce_outliers=False),
             CustomLDA(25),
             CustomLDA(50),
         ]
